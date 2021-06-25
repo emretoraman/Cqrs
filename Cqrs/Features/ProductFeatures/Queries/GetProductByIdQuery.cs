@@ -23,7 +23,7 @@ namespace Cqrs.Features.ProductFeatures.Queries
             public async Task<Product> Handle(GetProductByIdQuery query, CancellationToken cancellationToken)
             {
                 await Task.Delay(0, cancellationToken);
-                var product = _context.Products.Where(a => a.Id == query.Id).FirstOrDefault();
+                var product = _context.Products.FirstOrDefault(a => a.Id == query.Id);
                 return product;
             }
         }

@@ -13,7 +13,7 @@ namespace Cqrs.Controllers
 
         protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
 
-        [HttpGet]
+        [HttpGet("")]
         public async Task<IActionResult> GetAll()
         {
             return Ok(await Mediator.Send(new GetAllProductsQuery()));
@@ -25,14 +25,14 @@ namespace Cqrs.Controllers
             return Ok(await Mediator.Send(new GetProductByIdQuery { Id = id }));
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Create(CreateProductCommand command)
+        [HttpPost("")]
+        public async Task<IActionResult> Create([FromBody] CreateProductCommand command)
         {
             return Ok(await Mediator.Send(command));
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, UpdateProductCommand command)
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateProductCommand command)
         {
             if (id != command.Id) return BadRequest();
             return Ok(await Mediator.Send(command));

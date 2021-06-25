@@ -30,7 +30,7 @@ namespace Cqrs
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Cqrs", Version = "v1" });
             });
 
-            services.AddDbContext<ApplicationContext>(options =>
+            services.AddDbContext<IApplicationContext, ApplicationContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection"),
                     b => b.MigrationsAssembly(typeof(ApplicationContext).Assembly.FullName)
