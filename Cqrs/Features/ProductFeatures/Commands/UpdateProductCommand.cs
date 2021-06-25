@@ -1,5 +1,4 @@
 ﻿using Cqrs.Context;
-using Cqrs.Models;
 using MediatR;
 using System.Linq;
 using System.Threading;
@@ -9,7 +8,12 @@ namespace Cqrs.Features.ProductFeatures.Commands
 {
     public class UpdateProductCommand : IRequest<int>
     {
-        public Product Product { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Barcode { get; set; }
+        public string Description { get; set; }
+        public decimal Rate { get; set; }
+        public decimal BuyingPrice { get; set; }
 
         public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, int>
         {
@@ -22,14 +26,14 @@ namespace Cqrs.Features.ProductFeatures.Commands
 
             public async Task<int> Handle(UpdateProductCommand command, CancellationToken cancellationToken)
             {
-                var product = _context.Products.FirstOrDefault(p => p.Id == command.Product.Id);
+                var product = _context.Products.FirstOrDefault(p => p.Id == command.Id);
                 if (product == null) return default;
 
-                product.Barcode = command.Product.Barcode;
-                product.Name = command.Product.Name;
-                product.BuyingPrice = command.Product.BuyingPrice;
-                product.Rate = command.Product.Rate;
-                product.Description = command.Product.Description;
+                product.Name = command.Name;
+                product.Barcode = command.Barcode;
+                product.Description = command.Description;
+                product.Rate = command.Rate;
+                product.BuyingPrice = command.BuyingPrice;
 
                 await _context.SaveChangesAsync();
                 return product.Id;

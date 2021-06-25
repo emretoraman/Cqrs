@@ -8,7 +8,11 @@ namespace Cqrs.Features.ProductFeatures.Commands
 {
     public class CreateProductCommand : IRequest<int>
     {
-        public Product Product { get; set; }
+        public string Name { get; set; }
+        public string Barcode { get; set; }
+        public string Description { get; set; }
+        public decimal Rate { get; set; }
+        public decimal BuyingPrice { get; set; }
 
         public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, int>
         {
@@ -23,11 +27,11 @@ namespace Cqrs.Features.ProductFeatures.Commands
             {
                 var product = new Product
                 {
-                    Barcode = command.Product.Barcode,
-                    Name = command.Product.Name,
-                    BuyingPrice = command.Product.BuyingPrice,
-                    Rate = command.Product.Rate,
-                    Description = command.Product.Description
+                    Name = command.Name,
+                    Barcode = command.Barcode,
+                    Description = command.Description,
+                    Rate = command.Rate,
+                    BuyingPrice = command.BuyingPrice
                 };
 
                 _context.Products.Add(product);
